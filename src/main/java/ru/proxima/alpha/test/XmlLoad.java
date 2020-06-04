@@ -7,18 +7,16 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 /**
  * Загрузка XML с помощью StAX. Можно и с помощью JAXB это делать
  * @author 22с-proxima
  */
-@Component
+@Component @Slf4j
 public class XmlLoad {
 
-	private static final Logger LOG = LoggerFactory.getLogger(XmlLoad.class);
 	private static final XMLInputFactory FACTORY = XMLInputFactory.newInstance();
 
 	@Autowired
@@ -31,7 +29,7 @@ public class XmlLoad {
 		try (XmlLoader loader = new XmlLoader(xmlPath)) {
 			loader.exploreStorage();
 		} catch (XMLStreamException | NumberFormatException ex) {
-			LOG.error("Не удалось считать XML-файл", ex);
+			log.error("Не удалось считать XML-файл", ex);
 			throw new Error();
 		}
 	}
@@ -43,7 +41,7 @@ public class XmlLoad {
 			try {
 				reader = FACTORY.createXMLStreamReader(Files.newInputStream(Paths.get(xmlPath)));
 			} catch (IOException ex) {
-				LOG.error("Не удалось открыть XML-файл из параметров командной строки, работа невозможна", ex);
+				log.error("Не удалось открыть XML-файл из параметров командной строки, работа невозможна", ex);
 				throw new Error();
 			}
 		}
