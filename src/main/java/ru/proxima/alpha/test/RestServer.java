@@ -1,7 +1,6 @@
 package ru.proxima.alpha.test;
 
 import java.util.stream.Stream;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,14 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class RestServer {
-/**
- * Параметры поиска предметов
- */
-	@Data
-	public static class SearchParams {
-		private final int box;
-		private final String color;
-	}
 
 	@Autowired
 	Storage storage;
@@ -42,7 +33,7 @@ public class RestServer {
  */
 	@PostMapping("/test")
 	public Stream<Integer> post(@RequestBody SearchParams params) {
-		return find(params.box, params.color);
+		return find(params.getBox(), params.getColor());
 	}
 
 	private Stream<Integer> find(int where, String what) {
